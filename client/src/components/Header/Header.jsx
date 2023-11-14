@@ -6,31 +6,31 @@ export default function Header() {
   {/* Navigation */}
   <h1>
     <Link to={"/"}>
-    <a className="home">
+    <span className="home">
       GamesPlay
-    </a>
+    </span>
     </Link>
   </h1>
   <nav>
     <Link to={"/games"}>
-    <a>All games</a>
+    <span>All games</span>
     </Link>
     <Link to={"/games/create"}>
-      <a>Create Game</a>
+      <span>Create Game</span>
     </Link>
     <Link to={"/login"}>
     <div id="guest">
-      <a>Login</a>
+      <span>Login</span>
     </div>
     </Link>
     <Link to={"/register"}>
     <div id="guest">
-      <a>Register</a>
+      <span>Register</span>
     </div>
     </Link>
     {/* Logged-in users */}
     <div id="user">
-      <a>Logout</a>
+      <span>Logout</span>
     </div>
   </nav>
 </header>
