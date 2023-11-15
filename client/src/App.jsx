@@ -6,6 +6,7 @@ import Catalog from "./components/Catalog/Catalog.jsx";
 import Create from "./components/Create/Create.jsx";
 import Login from "./components/Login/Login.jsx";
 import Register from "./components/Register/Register.jsx";
+import Details from "./components/Details/Details.jsx";
 function App() {
   return (
     <div id="box">
@@ -16,6 +17,7 @@ function App() {
         <Route path="/games/create" element={<Create/>}/>
         <Route path="/login" element={<Login/>}/>
         <Route path="/register" element={<Register/>}/>
+        <Route path="/games/:gameId" element={<Details/>}/>
       </Routes>
     </div>
   );

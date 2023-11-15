@@ -1,13 +1,15 @@
-export default function SingleGame({game}) {
+import { Link } from "react-router-dom";
+
+export default function SingleGame({ game }) {
   return (
     <div className="allGames">
       <div className="allGames-info">
         <img src={game.imageUrl} />
         <h6>{game.category}</h6>
         <h2>{game.title}</h2>
-        <a href="#" className="details-button">
+        <Link to={`/games/${game._id}`} className="details-button">
           Details
-        </a>
+        </Link>
       </div>
     </div>
   );
