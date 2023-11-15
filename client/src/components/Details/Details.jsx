@@ -5,9 +5,11 @@ import { useEffect, useState } from "react";
 
 export default function Details() {
   const [game, setGame] = useState([]);
+  const [comments, setComments] = useState([]);
   const { gameId } = useParams();
   useEffect(() => {
     gameService.getOne(gameId).then((result) => setGame(result));
+    commentService.getAll().then((result) => setComments(result));
   }, [gameId]);
 
   const addCommentHandler = async (e) => {
@@ -18,8 +20,7 @@ export default function Details() {
       formData.get("username"),
       formData.get("comment")
     );
-
-    console.log(newComment)
+    setComments(state => [...state,newComment])
   };
 
   return (
@@ -37,16 +38,15 @@ export default function Details() {
         <div className="details-comments">
           <h2>Comments:</h2>
           <ul>
-            {/* list all comments for current game (If any) */}
-            <li className="comment">
-              <p>Content: I rate this one quite highly.</p>
-            </li>
-            <li className="comment">
-              <p>Content: The best game.</p>
-            </li>
+            {comments.map(({ _id,  username, comment }) => (
+              <li className="comment" key={_id}>
+                <p>
+                  {username}: {comment}
+                </p>
+              </li>
+            ))}
           </ul>
-          {/* Display paragraph: If there are no games in the database */}
-          <p className="no-comment">No comments.</p>
+          {comments.length === 0 && <p className="no-comment">No comments.</p>}
         </div>
         {/* Edit/Delete buttons ( Only for creator of this game )  */}
         <div className="buttons">
