@@ -11,7 +11,7 @@ export const create = async (gameId, username, comment) => {
   return newComment;
 };
 
-export const getAll = async () => {
+export const getAll = async (gameId) => {
   const comments = await request.get(baseUrl);
-  return Object.values(comments);
+  return Object.values(comments).filter(comment => comment.gameId === gameId)
 };

@@ -9,7 +9,7 @@ export default function Details() {
   const { gameId } = useParams();
   useEffect(() => {
     gameService.getOne(gameId).then((result) => setGame(result));
-    commentService.getAll().then((result) => setComments(result));
+    commentService.getAll(gameId).then((result) => setComments(result));
   }, [gameId]);
 
   const addCommentHandler = async (e) => {
