@@ -15,6 +15,11 @@ export const request = async (method, url, data) => {
     ...buildOptions(data),
     method,
   });
+  
+  if(!response.ok) {
+    const result = await response.json()
+    throw result
+  }
   const result = await response.json();
   return result;
 };
