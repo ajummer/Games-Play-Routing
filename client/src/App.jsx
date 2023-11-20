@@ -13,19 +13,27 @@ import { useNavigate } from "react-router-dom";
 import * as authService from "./services/authService.js";
 function App() {
   const [auth, setAuth] = useState({});
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const onLoginHandler = async (data) => {
     try {
       const token = await authService.login(data);
       setAuth(token);
-      navigate("/games")
+      navigate("/games");
     } catch (err) {
       console.log("There is a problem");
     }
   };
+
+  const context = {
+    onLoginHandler,
+    userId: auth._id,
+    token: auth.accessToken,
+    userEmail: auth.email,
+    isAuthenticated: !!auth.accessToken,
+  };
   return (
-    <AuthContext.Provider value={{ onLoginHandler }}>
+    <AuthContext.Provider value={context}>
       <div id="box">
         <Header />
         <Routes>
