@@ -65,10 +65,13 @@ function App() {
     onRegisterHandler,
     onLogout,
     userId: auth._id,
+    username: auth.username,
     token: auth.accessToken,
     userEmail: auth.email,
     isAuthenticated: !!auth.accessToken,
   };
+
+  console.log(auth)
   return (
     <AuthContext.Provider value={context}>
       <div id="box">

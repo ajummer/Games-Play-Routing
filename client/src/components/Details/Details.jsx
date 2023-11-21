@@ -1,9 +1,11 @@
 import * as gameService from "../../services/gameService.js";
 import * as commentService from "../../services/commentService.js";
 import { useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { AuthContext } from "../../contexts/authContext.js";
 
 export default function Details() {
+  const { username } = useContext(AuthContext);
   const [game, setGame] = useState([]);
   const [comments, setComments] = useState([]);
   const { gameId } = useParams();
@@ -17,11 +19,12 @@ export default function Details() {
     const formData = new FormData(e.currentTarget);
     const newComment = await commentService.create(
       gameId,
-      formData.get("username"),
       formData.get("comment")
     );
-    setComments(state => [...state,newComment])
+    setComments((state) => [...state, { ...newComment, username }]);
   };
+
+  console.log(comments);
 
   return (
     <section id="game-details">
@@ -38,7 +41,7 @@ export default function Details() {
         <div className="details-comments">
           <h2>Comments:</h2>
           <ul>
-            {comments.map(({ _id,  username, comment }) => (
+            {comments.map(({ _id, comment, username }) => (
               <li className="comment" key={_id}>
                 <p>
                   {username}: {comment}
@@ -63,7 +66,6 @@ export default function Details() {
       <article className="create-comment">
         <label>Add new comment:</label>
         <form className="form" onSubmit={addCommentHandler}>
-          <input type="text" name="username" placeholder="username" />
           <textarea
             name="comment"
             placeholder="Comment......"
