@@ -12,6 +12,5 @@ export const register = async (data) => {
 };
 
 export const logout = async () => {
-  request.get(`${baseUrl}/logout`)
-}
- 
+  request.get(`${baseUrl}/logout`);
+};

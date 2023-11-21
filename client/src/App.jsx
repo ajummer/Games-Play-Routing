@@ -11,16 +11,20 @@ import { useState } from "react";
 import { AuthContext } from "./contexts/authContext.js";
 import { useNavigate } from "react-router-dom";
 import * as authService from "./services/authService.js";
-import * as gameService from "./services/gameService.js"
+import * as gameService from "./services/gameService.js";
 import { Logout } from "./components/Logout/Logout.jsx";
 function App() {
-  const [auth, setAuth] = useState({});
+  const [auth, setAuth] = useState(() => {
+    localStorage.removeItem("accessToken");
+    return {};
+  });
   const navigate = useNavigate();
 
   const onLoginHandler = async (data) => {
     try {
-      const token = await authService.login(data);
-      setAuth(token);
+      const user = await authService.login(data);
+      setAuth(user);
+      localStorage.setItem("accessToken", user.accessToken);
       navigate("/games");
     } catch (err) {
       console.log("There is a problem");
@@ -33,8 +37,9 @@ function App() {
       return;
     }
     try {
-      const token = await authService.register(registerData);
-      setAuth(token);
+      const user = await authService.register(registerData);
+      setAuth(user);
+      localStorage.setItem("accessToken", user.accessToken);
       navigate("/games");
     } catch (err) {
       console.log("Unsuccessfull registration");
@@ -42,10 +47,10 @@ function App() {
   };
 
   const onLogout = async () => {
-    // await authService.logout();
     setAuth({});
+    localStorage.removeItem("accessToken");
   };
-  
+
   const onCreateGameHandler = async (gameData) => {
     try {
       await gameService.create(gameData);
@@ -53,7 +58,7 @@ function App() {
     } catch (err) {
       console.log(err);
     }
-  }
+  };
 
   const context = {
     onLoginHandler,
@@ -71,7 +76,10 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/games" element={<Catalog />} />
-          <Route path="/games/create" element={<Create onCreateGameHandler={onCreateGameHandler} />} />
+          <Route
+            path="/games/create"
+            element={<Create onCreateGameHandler={onCreateGameHandler} />}
+          />
           <Route path="/login" element={<Login />} />
           <Route path="/logout" element={<Logout />} />
           <Route path="/register" element={<Register />} />
