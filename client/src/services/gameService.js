@@ -10,7 +10,7 @@ export const create = async (data) => {
 
 export const getAll = async () => {
   const result = await request.get(baseUrl);
-  return Object.values(result);
+  return result;
 };
 
 export const getOne = async (id) => {

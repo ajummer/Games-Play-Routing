@@ -1,5 +1,5 @@
 import * as request from "../lib/request.js";
-const baseUrl = "http://localhost:3030/jsonstore/comments";
+const baseUrl = "http://localhost:3030/data/comments";
 
 export const create = async (gameId, username, comment) => {
   const newComment = await request.post(baseUrl, {
@@ -12,6 +12,9 @@ export const create = async (gameId, username, comment) => {
 };
 
 export const getAll = async (gameId) => {
-  const comments = await request.get(baseUrl);
-  return Object.values(comments).filter(comment => comment.gameId === gameId)
+  const query = new URLSearchParams({
+    where: `gameId="${gameId}"`,
+  });
+  const comments = await request.get(`${baseUrl}?${query}`);
+  return comments;
 };
