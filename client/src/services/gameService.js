@@ -1,4 +1,4 @@
-const baseUrl = "http://localhost:3030/jsonstore/games";
+const baseUrl = "http://localhost:3030/data/games";
 
 import * as request from "../lib/request.js";
 
