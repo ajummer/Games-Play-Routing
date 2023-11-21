@@ -3,5 +3,10 @@ const baseUrl = "http://localhost:3030/users";
 
 export const login = async (loginData) => {
   const token = request.post(`${baseUrl}/login`, loginData);
-  return token
+  return token;
+};
+
+export const register = async (data) => {
+  const result = request.post(`${baseUrl}/register`, data);
+  return result;
 };

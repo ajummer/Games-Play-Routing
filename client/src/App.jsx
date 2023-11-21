@@ -25,8 +25,23 @@ function App() {
     }
   };
 
+  const onRegisterHandler = async (data) => {
+    const { confirmPassword, ...registerData } = data;
+    if (confirmPassword != registerData.password) {
+      return;
+    }
+    try {
+      const token = await authService.register(registerData);
+      setAuth(token);
+      navigate("/games");
+    } catch (err) {
+      console.log("Unsuccessfull registration");
+    }
+  };
+
   const context = {
     onLoginHandler,
+    onRegisterHandler,
     userId: auth._id,
     token: auth.accessToken,
     userEmail: auth.email,
