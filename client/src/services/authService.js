@@ -10,3 +10,8 @@ export const register = async (data) => {
   const result = request.post(`${baseUrl}/register`, data);
   return result;
 };
+
+export const logout = async () => {
+  request.get(`${baseUrl}/logout`)
+}
+ 

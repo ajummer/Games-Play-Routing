@@ -1,24 +1,20 @@
-import * as gameService from "../../services/gameService.js";
-import { useNavigate } from "react-router-dom";
-export default function Create() {
+import { useForm } from "../../hooks/useForm.js";
 
-  const navigate = useNavigate();
-  const createGameSubmitHandler = async (e) => {
-    e.preventDefault();
-
-    // uncontrolled form ! not good practice
-    const gameData = Object.fromEntries(new FormData(e.currentTarget));
-    try {
-      await gameService.create(gameData);
-      navigate("/games");
-    } catch (err) {
-      console.log(err);
-    }
-  };
+export default function Create({ onCreateGameHandler }) {
+  const { values, changeHandler, onSubmit } = useForm(
+    {
+      title: "",
+      category: "",
+      maxLevel: "",
+      imageUrl: "",
+      summary: "",
+    },
+    onCreateGameHandler
+  );
 
   return (
     <section id="create-page" className="auth">
-      <form id="create" onSubmit={createGameSubmitHandler}>
+      <form id="create" onSubmit={onSubmit}>
         <div className="container">
           <h1>Create Game</h1>
           <label htmlFor="leg-title">Legendary title:</label>
@@ -27,6 +23,8 @@ export default function Create() {
             id="title"
             name="title"
             placeholder="Enter game title..."
+            value={values.title}
+            onChange={changeHandler}
           />
           <label htmlFor="category">Category:</label>
           <input
@@ -34,6 +32,8 @@ export default function Create() {
             id="category"
             name="category"
             placeholder="Enter game category..."
+            value={values.category}
+            onChange={changeHandler}
           />
           <label htmlFor="levels">MaxLevel:</label>
           <input
@@ -42,6 +42,8 @@ export default function Create() {
             name="maxLevel"
             min={1}
             placeholder={1}
+            value={values.maxLevel}
+            onChange={changeHandler}
           />
           <label htmlFor="game-img">Image:</label>
           <input
@@ -49,9 +51,17 @@ export default function Create() {
             id="imageUrl"
             name="imageUrl"
             placeholder="Upload a photo..."
+            value={values.imageUrl}
+            onChange={changeHandler}
           />
           <label htmlFor="summary">Summary:</label>
-          <textarea name="summary" id="summary" defaultValue={""} />
+          <textarea
+            name="summary"
+            id="summary"
+            defaultValue={""}
+            value={values.summary}
+            onChange={changeHandler}
+          />
           <input
             className="btn submit"
             type="submit"

@@ -22,7 +22,9 @@ export default function Header() {
               <span>Create Game</span>
             </Link>
             <p>{userEmail}</p>
-            <span>Logout</span>
+            <Link to={"/logout"}>
+              <span>Logout</span>
+            </Link>
           </div>
         )}
         {!isAuthenticated && (
